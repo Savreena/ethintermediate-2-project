@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyTrade Contract Interface</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+</head>
+<body>
+    
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+    <button id="connect" onclick="connect()">Connect to Wallet</button> 
+    <h1>EasyTrade Contract Interface</h1>
+
+    <div>
+        <h2>Add Merchandise</h2>
+        <input type="text" id="itemName" placeholder="Merchandise Name">
+        <input type="number" id="itemQuantity" placeholder="Quantity">
+        <input type="number" id="itemValue" placeholder="Value">
+        <button onclick="addMerchandise()">Add Merchandise</button>
+    </div>
+
+    <div>
+        <h2>Purchase Merchandise</h2>
+        <input type="text" id="merchandiseName" placeholder="Merchandise Name">
+        <button onclick="purchaseMerchandise()">Purchase Merchandise</button>
+        <p id="purchaseMerchandiseResult"></p>
+    </div>
+
+    <div>
+        <h2>Check Merchandise Quantity</h2>
+        <input type="text" id="checkMerchandiseName" placeholder="Merchandise Name">
+        <button onclick="checkMerchandiseQuantity()">Check Quantity</button>
+        <p id="checkMerchandiseQuantityResult"></p>
+    </div>
+
+    <div>
+        <h2>Check Merchandise Value</h2>
+        <input type="text" id="checkMerchandiseValueName" placeholder="Merchandise Name">
+        <button onclick="checkMerchandiseValue()">Check Value</button>
+        <p id="checkMerchandiseValueResult"></p>
+    </div>
+
+    <script src="script.js"></script>
+
+</html>

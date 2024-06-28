@@ -28,5 +28,5 @@ contract EasyTrade {
 
     function checkMerchandiseValue(string memory _itemName) public view returns (uint) {
         return inventory[_itemName].value;
-    }
+    }
 }

@@ -1,4 +1,7 @@
-const contractAddress = '0x70760eC2422FFF4b10C1b750f1564B319C17a5E2'; // Replace with your deployed contract address
+// Replace with your deployed contract address
+const contractAddress = '0xE41f1500e3b8207e3C283574fe84CA9B94Bec6ED';
+
+// ABI for EasyTrade contract
 const contractABI = [
     {
         "inputs": [
@@ -79,6 +82,30 @@ const contractABI = [
         ],
         "stateMutability": "view",
         "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "name": "inventory",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "quantity",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
     }
 ];
 
@@ -86,76 +113,86 @@ let provider;
 let signer;
 let contract;
 
-async function connect() {
-    if (window.ethereum) {
-        try {
-            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-            console.log(`Connected account: ${accounts[0]}`);
-            provider = new ethers.providers.Web3Provider(window.ethereum);
-            signer = provider.getSigner();
-            contract = new ethers.Contract(contractAddress, contractABI, signer);
-            alert('Wallet connected');
-        } catch (error) {
-            console.error(error);
-            alert('Failed to connect wallet');
+document.addEventListener('DOMContentLoaded', () => {
+    async function connect() {
+        if (window.ethereum) {
+            try {
+                // Request account access if needed
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                console.log('Account access granted');
+                // Initialize ethers provider and signer
+                provider = new ethers.providers.Web3Provider(window.ethereum);
+                signer = provider.getSigner();
+                // Create a connection to the smart contract
+                contract = new ethers.Contract(contractAddress, contractABI, signer);
+                alert('Wallet connected');
+            } catch (error) {
+                console.error('Error connecting wallet:', error);
+                alert('Failed to connect wallet');
+            }
+        } else {
+            alert('No wallet found. Please install MetaMask.');
         }
-    } else {
-        alert('No wallet found');
     }
-}
 
-// Function to add merchandise
-async function addMerchandise() {
-    const itemName = document.getElementById('itemName').value;
-    const itemQuantity = document.getElementById('itemQuantity').value;
-    const itemValue = document.getElementById('itemValue').value;
+    async function addMerchandise() {
+        const itemName = document.getElementById('itemName').value;
+        const quantity = document.getElementById('quantity').value;
+        const value = document.getElementById('value').value;
 
-    try {
-        await contract.addMerchandise(itemName, itemQuantity, itemValue);
-        alert('Merchandise added successfully!');
-    } catch (error) {
-        console.error('Error adding merchandise:', error);
-        alert('Error adding merchandise. Check console for details.');
+        try {
+            const result = await contract.addMerchandise(itemName, quantity, value);
+            console.log('Merchandise added:', result);
+            alert('Merchandise added successfully!');
+        } catch (error) {
+            console.error('Error adding merchandise:', error);
+            alert('Error adding merchandise. Check console for details.');
+        }
     }
-}
 
-// Function to purchase merchandise
-async function purchaseMerchandise() {
-    const itemName = document.getElementById('merchandiseName').value;
+    async function purchaseMerchandise() {
+        const itemName = document.getElementById('purchaseItemName').value;
 
-    try {
-        const tx = await contract.purchaseMerchandise(itemName);
-        await tx.wait();
-        const result = await contract.checkMerchandiseQuantity(itemName);
-        document.getElementById('purchaseMerchandiseResult').innerText = `Purchase complete, thank you! Remaining quantity: ${result}`;
-    } catch (error) {
-        console.error('Error purchasing merchandise:', error);
-        document.getElementById('purchaseMerchandiseResult').innerText = 'Error purchasing merchandise. Check console for details.';
+        try {
+            const result = await contract.purchaseMerchandise(itemName);
+            console.log('Purchase result:', result);
+            alert(result);
+        } catch (error) {
+            console.error('Error purchasing merchandise:', error);
+            alert('Error purchasing merchandise. Check console for details.');
+        }
     }
-}
 
-// Function to check merchandise quantity
-async function checkMerchandiseQuantity() {
-    const itemName = document.getElementById('checkMerchandiseName').value;
+    async function checkMerchandiseQuantity() {
+        const itemName = document.getElementById('checkQuantityItemName').value;
 
-    try {
-        const result = await contract.checkMerchandiseQuantity(itemName);
-        document.getElementById('checkMerchandiseQuantityResult').innerText = `Quantity available: ${result}`;
-    } catch (error) {
-        console.error('Error checking merchandise quantity:', error);
-        document.getElementById('checkMerchandiseQuantityResult').innerText = 'Error checking merchandise quantity.';
+        try {
+            const quantity = await contract.checkMerchandiseQuantity(itemName);
+            console.log('Merchandise quantity:', quantity);
+            alert(`Quantity: ${quantity}`);
+        } catch (error) {
+            console.error('Error checking merchandise quantity:', error);
+            alert('Error checking merchandise quantity. Check console for details.');
+        }
     }
-}
 
-// Function to check merchandise value
-async function checkMerchandiseValue() {
-    const itemName = document.getElementById('checkMerchandiseValueName').value;
+    async function checkMerchandiseValue() {
+        const itemName = document.getElementById('checkValueItemName').value;
 
-    try {
-        const value = await contract.checkMerchandiseValue(itemName);
-        document.getElementById('checkMerchandiseValueResult').innerText = `Value of merchandise: ${value}`;
-    } catch (error) {
-        console.error('Error checking merchandise value:', error);
-        document.getElementById('checkMerchandiseValueResult').innerText = 'Error checking merchandise value.';
+        try {
+            const value = await contract.checkMerchandiseValue(itemName);
+            console.log('Merchandise value:', value);
+            alert(`Value: ${value}`);
+        } catch (error) {
+            console.error('Error checking merchandise value:', error);
+            alert('Error checking merchandise value. Check console for details.');
+        }
     }
-}
+
+    // Expose functions to the global scope
+    window.connect = connect;
+    window.addMerchandise = addMerchandise;
+    window.purchaseMerchandise = purchaseMerchandise;
+    window.checkMerchandiseQuantity = checkMerchandiseQuantity;
+    window.checkMerchandiseValue = checkMerchandiseValue;
+});

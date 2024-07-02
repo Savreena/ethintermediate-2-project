@@ -9,11 +9,13 @@ contract EasyTrade {
 
     mapping(string => Merchandise) public inventory;
 
-    function addMerchandise(string memory _itemName, uint _quantity, uint _value) public {
+    // Function to add merchandise to the inventory
+    function Merchandise_add(string memory _itemName, uint _quantity, uint _value) public {
         inventory[_itemName] = Merchandise(_quantity, _value);
     }
 
-    function purchaseMerchandise(string memory _itemName) public returns (string memory) {
+    // Function to purchase merchandise from the inventory
+    function Merchandise_purchase(string memory _itemName) public returns (string memory) {
         if (inventory[_itemName].quantity > 0) {
             inventory[_itemName].quantity--;
             return string(abi.encodePacked("Purchase successful, thank you! Remaining quantity: ", inventory[_itemName].quantity));
@@ -22,11 +24,13 @@ contract EasyTrade {
         }
     }
 
-    function checkMerchandiseQuantity(string memory _itemName) public view returns (uint) {
+    // Function to check the quantity of a specific merchandise
+    function Merchandise_checkQuantity(string memory _itemName) public view returns (uint) {
         return inventory[_itemName].quantity;
     }
 
-    function checkMerchandiseValue(string memory _itemName) public view returns (uint) {
+    // Function to check the value of a specific merchandise
+    function Merchandise_checkValue(string memory _itemName) public view returns (uint) {
         return inventory[_itemName].value;
     }
 }

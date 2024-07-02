@@ -1,32 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EasyTrade DApp</title>
-    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.0/dist/ethers.umd.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>EasyTrade DApp</h1>
-    <button onclick="connect()">Connect Wallet</button>
+    <div class="container">
+        <header>
+            <h1>EasyTrade DApp</h1>
+        </header>
+        <main>
+            <button id="connectWalletButton" class="btn" onclick="connect()">Connect Wallet</button>
+            
+            <section class="form-section">
+                <h2>Add Merchandise</h2>
+                <form id="addMerchandiseForm" class="form">
+                    <input type="text" id="itemName" placeholder="Item Name" required class="input">
+                    <input type="number" id="quantity" placeholder="Quantity" required class="input">
+                    <input type="number" id="value" placeholder="Value" required class="input">
+                    <button type="button" class="btn" onclick="addMerchandise()">Add Merchandise</button>
+                </form>
+            </section>
 
-    <h2>Add Merchandise</h2>
-    <input type="text" id="itemName" placeholder="Item Name">
-    <input type="number" id="quantity" placeholder="Quantity">
-    <input type="number" id="value" placeholder="Value">
-    <button onclick="addMerchandise()">Add Merchandise</button>
+            <section class="form-section">
+                <h2>Purchase Merchandise</h2>
+                <form id="purchaseMerchandiseForm" class="form">
+                    <input type="text" id="purchaseItemName" placeholder="Item Name" required class="input">
+                    <button type="button" class="btn" onclick="purchaseMerchandise()">Purchase</button>
+                </form>
+            </section>
 
-    <h2>Purchase Merchandise</h2>
-    <input type="text" id="purchaseItemName" placeholder="Item Name">
-    <button onclick="purchaseMerchandise()">Purchase</button>
+            <section class="form-section">
+                <h2>Check Merchandise Quantity</h2>
+                <form id="checkQuantityForm" class="form">
+                    <input type="text" id="checkQuantityItemName" placeholder="Item Name" required class="input">
+                    <button type="button" class="btn" onclick="checkMerchandiseQuantity()">Check Quantity</button>
+                </form>
+            </section>
 
-    <h2>Check Merchandise Quantity</h2>
-    <input type="text" id="checkQuantityItemName" placeholder="Item Name">
-    <button onclick="checkMerchandiseQuantity()">Check Quantity</button>
-
-    <h2>Check Merchandise Value</h2>
-    <input type="text" id="checkValueItemName" placeholder="Item Name">
-    <button onclick="checkMerchandiseValue()">Check Value</button>
-
-    <!-- Ensure the script path is correct -->
+            <section class="form-section">
+                <h2>Check Merchandise Value</h2>
+                <form id="checkValueForm" class="form">
+                    <input type="text" id="checkValueItemName" placeholder="Item Name" required class="input">
+                    <button type="button" class="btn" onclick="checkMerchandiseValue()">Check Value</button>
+                </form>
+            </section>
+        </main>
+    </div>
     <script src="deploy.js"></script>
 </body>
 </html>

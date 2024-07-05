@@ -13,7 +13,7 @@
             <h1>EasyTrade DApp</h1>
         </header>
         <main>
-            <button id="connectWalletButton" class="btn" onclick="connect()">Connect Wallet</button>
+            <button id="connectWalletButton" class="btn">Connect Wallet</button>
             
             <section class="form-section">
                 <h2>Add Merchandise</h2>
@@ -21,7 +21,7 @@
                     <input type="text" id="itemName" placeholder="Item Name" required class="input">
                     <input type="number" id="quantity" placeholder="Quantity" required class="input">
                     <input type="number" id="value" placeholder="Value" required class="input">
-                    <button type="button" class="btn" onclick="addMerchandise()">Add Merchandise</button>
+                    <button type="submit" class="btn">Add Merchandise</button>
                 </form>
             </section>
 
@@ -29,7 +29,7 @@
                 <h2>Purchase Merchandise</h2>
                 <form id="purchaseMerchandiseForm" class="form">
                     <input type="text" id="purchaseItemName" placeholder="Item Name" required class="input">
-                    <button type="button" class="btn" onclick="purchaseMerchandise()">Purchase</button>
+                    <button type="submit" class="btn">Purchase</button>
                 </form>
             </section>
 
@@ -37,7 +37,7 @@
                 <h2>Check Merchandise Quantity</h2>
                 <form id="checkQuantityForm" class="form">
                     <input type="text" id="checkQuantityItemName" placeholder="Item Name" required class="input">
-                    <button type="button" class="btn" onclick="checkMerchandiseQuantity()">Check Quantity</button>
+                    <button type="submit" class="btn">Check Quantity</button>
                 </form>
             </section>
 
@@ -45,9 +45,11 @@
                 <h2>Check Merchandise Value</h2>
                 <form id="checkValueForm" class="form">
                     <input type="text" id="checkValueItemName" placeholder="Item Name" required class="input">
-                    <button type="button" class="btn" onclick="checkMerchandiseValue()">Check Value</button>
+                    <button type="submit" class="btn">Check Value</button>
                 </form>
             </section>
+
+            <ul id="postList" class="post-list"></ul>
         </main>
     </div>
     <script src="deploy.js"></script>

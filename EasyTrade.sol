@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.24;
+pragma solidity ^0.8.26;
 
 contract EasyTrade {
     struct Merchandise {
@@ -7,7 +7,7 @@ contract EasyTrade {
         uint value;
     }
 
-    mapping(string => Merchandise) public inventory;
+    mapping(string => Merchandise) public inventory; //Creates a public mapping named inventory to store merchandise items.
 
     // Function to add merchandise to the inventory
     function Merchandise_add(string memory _itemName, uint _quantity, uint _value) public {

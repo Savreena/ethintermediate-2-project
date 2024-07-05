@@ -1,8 +1,11 @@
-// Replace with your deployed contract address
-const contractAddress = '0xE41f1500e3b8207e3C283574fe84CA9B94Bec6ED';
+let provider;
+let signer;
+let contract;
+
+const contractAddress = '0x8C3b745Ff0e9e1B607cD22adDB11eCF37C1B686C';
 
 // ABI for EasyTrade contract
-const contractABI = [
+const contractABI = [ 
     {
         "inputs": [
             {
@@ -21,7 +24,7 @@ const contractABI = [
                 "type": "uint256"
             }
         ],
-        "name": "addMerchandise",
+        "name": "Merchandise_add",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -34,7 +37,7 @@ const contractABI = [
                 "type": "string"
             }
         ],
-        "name": "purchaseMerchandise",
+        "name": "Merchandise_purchase",
         "outputs": [
             {
                 "internalType": "string",
@@ -43,44 +46,6 @@ const contractABI = [
             }
         ],
         "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "_itemName",
-                "type": "string"
-            }
-        ],
-        "name": "checkMerchandiseQuantity",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "_itemName",
-                "type": "string"
-            }
-        ],
-        "name": "checkMerchandiseValue",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -106,15 +71,50 @@ const contractABI = [
         ],
         "stateMutability": "view",
         "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_itemName",
+                "type": "string"
+            }
+        ],
+        "name": "Merchandise_checkQuantity",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_itemName",
+                "type": "string"
+            }
+        ],
+        "name": "Merchandise_checkValue",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
     }
 ];
 
-let provider;
-let signer;
-let contract;
-
 document.addEventListener('DOMContentLoaded', () => {
-    async function connect() {
+    // Function to connect to the wallet
+    async function connectWallet() {
         if (window.ethereum) {
             try {
                 // Request account access if needed
@@ -135,13 +135,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function addMerchandise() {
+    // Function to add merchandise
+    async function addMerchandise(event) {
+        event.preventDefault();
         const itemName = document.getElementById('itemName').value;
         const quantity = document.getElementById('quantity').value;
         const value = document.getElementById('value').value;
 
         try {
-            const result = await contract.addMerchandise(itemName, quantity, value);
+            const result = await contract.Merchandise_add(itemName, quantity, value);
             console.log('Merchandise added:', result);
             alert('Merchandise added successfully!');
         } catch (error) {
@@ -150,11 +152,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function purchaseMerchandise() {
+    // Function to purchase merchandise
+    async function purchaseMerchandise(event) {
+        event.preventDefault();
         const itemName = document.getElementById('purchaseItemName').value;
 
         try {
-            const result = await contract.purchaseMerchandise(itemName);
+            const result = await contract.Merchandise_purchase(itemName);
             console.log('Purchase result:', result);
             alert(result);
         } catch (error) {
@@ -163,36 +167,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function checkMerchandiseQuantity() {
+    // Function to check merchandise quantity
+    async function checkMerchandiseQuantity(event) {
+        event.preventDefault();
         const itemName = document.getElementById('checkQuantityItemName').value;
 
         try {
-            const quantity = await contract.checkMerchandiseQuantity(itemName);
+            const quantity = await contract.Merchandise_checkQuantity(itemName);
             console.log('Merchandise quantity:', quantity);
-            alert(`Quantity: ${quantity}`);
+            alert(Quantity: ${quantity});
         } catch (error) {
             console.error('Error checking merchandise quantity:', error);
             alert('Error checking merchandise quantity. Check console for details.');
         }
     }
 
-    async function checkMerchandiseValue() {
+    // Function to check merchandise value
+    async function checkMerchandiseValue(event) {
+        event.preventDefault();
         const itemName = document.getElementById('checkValueItemName').value;
 
         try {
-            const value = await contract.checkMerchandiseValue(itemName);
+            const value = await contract.Merchandise_checkValue(itemName);
             console.log('Merchandise value:', value);
-            alert(`Value: ${value}`);
+            alert(Value: ${value});
         } catch (error) {
             console.error('Error checking merchandise value:', error);
             alert('Error checking merchandise value. Check console for details.');
         }
     }
 
-    // Expose functions to the global scope
-    window.connect = connect;
-    window.addMerchandise = addMerchandise;
-    window.purchaseMerchandise = purchaseMerchandise;
-    window.checkMerchandiseQuantity = checkMerchandiseQuantity;
-    window.checkMerchandiseValue = checkMerchandiseValue;
+    // Add event listeners to forms
+    document.getElementById('connectWalletButton').addEventListener('click', connectWallet);
+    document.getElementById('addMerchandiseForm').addEventListener('submit', addMerchandise);
+    document.getElementById('purchaseMerchandiseForm').addEventListener('submit', purchaseMerchandise);
+    document.getElementById('checkQuantityForm').addEventListener('submit', checkMerchandiseQuantity);
+    document.getElementById('checkValueForm').addEventListener('submit', checkMerchandiseValue);
 });
